@@ -1,6 +1,11 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
+variable "environments" {
+  type    = set(string)
+  default = []
+}
+
 variable "prefix" {
   type = string
 }
@@ -25,6 +30,8 @@ provider "random" "this" {}
 provider "null" "this" {}
 
 component "pet" {
+  for_each = var.environments
+
   source = "./pet"
 
   inputs = {
@@ -37,10 +44,12 @@ component "pet" {
 }
 
 component "nulls" {
+  for_each = var.environments
+
   source = "./nulls"
 
   inputs = {
-    pet       = component.pet.name
+    pet       = component.pet[each.value].name
     instances = var.instances
   }
 

@@ -11,7 +11,7 @@ deployment "simple" {
 
 deployment "complex" {
   inputs = {
-    environments     = []
+    environments     = ["blue","red"]
     prefix           = "complex"
     instances        = 3
   }
